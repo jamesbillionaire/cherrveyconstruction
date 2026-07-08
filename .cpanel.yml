@@ -1,13 +1,6 @@
 ---
 deployment:
   tasks:
-    # Reference workflow for cPanel Git Version Control deployments.
-    # Update DEPLOY_PATH after your hosting account path is confirmed.
-    - export DEPLOY_PATH=/home/USERNAME/public_html
-    - export REPO_PATH=/home/USERNAME/repositories/ikli-website
-    - /bin/mkdir -p $DEPLOY_PATH
-  post_deploy:
-    - cd $REPO_PATH
-    - npm ci
-    - npm run build
-    - /bin/cp -R out/* $DEPLOY_PATH/
+    - export DEPLOYPATH=/home/ikliqnhf/cherrveyconstruction/
+    - /bin/rm -rf $DEPLOYPATH/*
+    - /bin/cp -R out/* $DEPLOYPATH
