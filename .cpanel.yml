@@ -4,4 +4,4 @@ deployment:
     - export DEPLOYPATH=/home/ikliqnhf/cherrveyconstruction/
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/rm -rf $DEPLOYPATH/*
-    - /bin/cp -R out/* $DEPLOYPATH
+    - /bin/cp -a out/. $DEPLOYPATH
