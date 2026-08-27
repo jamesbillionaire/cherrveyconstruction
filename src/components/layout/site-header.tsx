@@ -1,88 +1,150 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useId, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import { navLinks } from "@/lib/site-content";
+import { SiteLogo } from "@/components/brand/site-logo";
+import { ButtonLink } from "@/components/ui/button-link";
+import { navLinks } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuId = useId();
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isMenuOpen]);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300",
-        isScrolled
-          ? "border-border/60 bg-background/85 backdrop-blur-xl"
-          : "border-transparent bg-transparent"
-      )}
-    >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8">
-        <a
-          href="#hero"
-          className="text-lg font-semibold tracking-tight text-foreground"
-        >
-          Ikli<span className="text-primary">.</span>
-        </a>
+    <header className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur-md">
+      <div className="h-[3px] bg-brand-blue">
+        <span className="block h-full w-16 bg-brand-red" />
+      </div>
+      <div className="mx-auto flex h-[4.25rem] max-w-[1180px] items-center justify-between gap-4 px-5 sm:px-6 lg:px-8">
+        <SiteLogo compact />
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+          {navLinks.map((link) => {
+            const isActive =
+              link.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(link.href);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "relative py-1 text-[0.8rem] tracking-[0.12em] uppercase transition-colors",
+                  isActive
+                    ? "font-semibold text-brand-navy"
+                    : "text-muted-foreground hover:text-brand-navy"
+                )}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {link.label}
+                {isActive ? (
+                  <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-brand-red" />
+                ) : null}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="hidden md:block">
-          <Button render={<a href="#contact" />} size="sm">
-            Start a Project
-          </Button>
+        <div className="hidden lg:block">
+          <ButtonLink href="/contact" variant="cta" size="xl">
+            Discuss a Project
+          </ButtonLink>
         </div>
 
         <button
           type="button"
-          className="inline-flex size-9 items-center justify-center rounded-lg border border-border md:hidden"
+          className="inline-flex size-11 items-center justify-center border border-border lg:hidden"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls={menuId}
           onClick={() => setIsMenuOpen((open) => !open)}
         >
-          {isMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+          <span className="sr-only">
+            {isMenuOpen ? "Close menu" : "Open menu"}
+          </span>
+          <span className="relative block h-3.5 w-5">
+            <span
+              className={cn(
+                "absolute left-0 block h-px w-5 bg-brand-ink transition-transform",
+                isMenuOpen ? "top-1.5 rotate-45" : "top-0"
+              )}
+            />
+            <span
+              className={cn(
+                "absolute top-1.5 left-0 block h-px w-5 bg-brand-ink transition-opacity",
+                isMenuOpen ? "opacity-0" : "opacity-100"
+              )}
+            />
+            <span
+              className={cn(
+                "absolute left-0 block h-px w-5 bg-brand-ink transition-transform",
+                isMenuOpen ? "top-1.5 -rotate-45" : "top-3"
+              )}
+            />
+          </span>
         </button>
       </div>
 
       {isMenuOpen ? (
-        <div className="border-t border-border/60 bg-background/95 px-6 py-4 backdrop-blur-xl md:hidden">
-          <nav className="flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="py-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
-            <Button
-              render={<a href="#contact" />}
-              className="mt-2 w-full"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Start a Project
-            </Button>
+        <div
+          id={menuId}
+          className="border-t border-border bg-white lg:hidden"
+        >
+          <nav className="mx-auto flex max-w-[1180px] flex-col px-5 py-4 sm:px-6" aria-label="Mobile">
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "border-b border-border py-4 text-sm tracking-[0.14em] uppercase",
+                    isActive ? "font-semibold text-brand-navy" : "text-foreground"
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+            <ButtonLink href="/contact" variant="cta" size="xl" className="mt-5">
+              Discuss a Project
+            </ButtonLink>
           </nav>
         </div>
       ) : null}

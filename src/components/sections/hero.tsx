@@ -1,74 +1,61 @@
-"use client";
+import Image from "next/image";
 
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-
-import { FadeIn } from "@/components/motion/fade-in";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
+import { site } from "@/lib/company";
 
 export function HeroSection() {
   return (
-    <section
-      id="hero"
-      className="relative overflow-hidden border-b border-border/60 pt-28 pb-20 md:pt-36 md:pb-28"
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,oklch(0.72_0.12_85/0.18),transparent_42%),radial-gradient(circle_at_bottom_left,oklch(0.35_0.06_260/0.35),transparent_45%)]" />
+    <section className="relative overflow-hidden bg-brand-ink text-white">
+      <div className="pointer-events-none absolute inset-0 blueprint-grid opacity-70" />
+      <div className="pointer-events-none absolute -right-24 top-20 hidden h-[28rem] w-[28rem] rotate-45 border-[14px] border-brand-blue/50 lg:block" />
+      <div className="pointer-events-none absolute top-0 right-[22%] hidden h-full w-px bg-white/10 lg:block" />
+      <div className="pointer-events-none absolute right-10 bottom-24 h-1.5 w-28 bg-brand-red" />
 
-      <div className="relative mx-auto max-w-6xl px-6 lg:px-8">
-        <FadeIn>
-          <Badge variant="secondary" className="mb-6">
-            Premium Digital Studio
-          </Badge>
-        </FadeIn>
-
-        <motion.h1
-          className="max-w-4xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          We build refined digital experiences for ambitious brands.
-        </motion.h1>
-
-        <FadeIn delay={0.15}>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Ikli partners with companies ready to elevate their presence with
-            strategic design, premium craftsmanship, and websites engineered for
-            performance and growth.
+      <div className="relative mx-auto grid min-h-[calc(100svh-4.5rem)] max-w-[1180px] items-center gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:px-8 lg:py-20">
+        <div className="reveal">
+          <p className="text-[0.68rem] font-semibold tracking-[0.26em] text-white/65 uppercase">
+            Construction · Infrastructure · Technology
           </p>
-        </FadeIn>
+          <h1 className="mt-5 max-w-[18ch] text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.04em] text-balance break-words sm:text-5xl lg:text-[3.4rem]">
+            Construction. Infrastructure. Technology. Built to perform.
+          </h1>
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
+            {site.description}
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <ButtonLink href="/projects" variant="cta" size="xl" className="w-full justify-center sm:w-auto">
+              View Our Projects
+            </ButtonLink>
+            <ButtonLink href="/contact" variant="inverse" size="xl" className="w-full justify-center sm:w-auto">
+              Discuss a Project
+            </ButtonLink>
+          </div>
+          <p className="mt-8 font-mono text-[0.7rem] tracking-[0.18em] text-white/55 uppercase">
+            PCAB No. {site.pcabNumber}
+          </p>
+        </div>
 
-        <FadeIn delay={0.25} className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <Button render={<a href="#contact" />} size="lg" className="h-11 px-5">
-            Book a Consultation
-            <ArrowRight className="size-4" />
-          </Button>
-          <Button
-            render={<a href="#projects" />}
-            variant="outline"
-            size="lg"
-            className="h-11 px-5"
-          >
-            View Our Work
-          </Button>
-        </FadeIn>
-
-        <FadeIn delay={0.35} className="mt-16 grid gap-4 sm:grid-cols-3">
-          {[
-            { value: "50+", label: "Projects Delivered" },
-            { value: "12+", label: "Years of Experience" },
-            { value: "98%", label: "Client Satisfaction" },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-sm"
-            >
-              <p className="text-2xl font-semibold tracking-tight">{stat.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+          <div className="relative overflow-hidden border border-white/10 bg-black">
+            <div className="absolute top-0 left-0 z-10 h-full w-1.5 bg-brand-red" />
+            <div className="relative aspect-square">
+              <div className="absolute inset-6 sm:inset-10">
+                <Image
+                  src="/brand/cherrvey-logo.jpg"
+                  alt={`${site.shortName} Construction Services emblem`}
+                  fill
+                  sizes="(max-width: 1024px) 80vw, 420px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </div>
-          ))}
-        </FadeIn>
+            <div className="flex items-center justify-between border-t border-white/10 px-5 py-4 font-mono text-[0.65rem] tracking-[0.16em] text-white/55 uppercase">
+              <span>Est. {site.foundedYear}</span>
+              <span>El Salvador City, Mis. Or.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
