@@ -31,12 +31,12 @@ export function SiteLogo({
     >
       <span
         className={cn(
-          "relative block shrink-0 overflow-hidden bg-black",
+          "relative block shrink-0",
           compact ? "size-11" : "size-12"
         )}
       >
         <Image
-          src="/brand/cherrvey-logo.jpg"
+          src="/brand/cherrvey-logo.png"
           alt=""
           fill
           sizes="48px"

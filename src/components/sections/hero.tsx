@@ -36,12 +36,12 @@ export function HeroSection() {
         </div>
 
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <div className="relative overflow-hidden border border-white/10 bg-black">
+          <div className="relative overflow-hidden border border-white/10">
             <div className="absolute top-0 left-0 z-10 h-full w-1.5 bg-brand-red" />
             <div className="relative aspect-square">
               <div className="absolute inset-6 sm:inset-10">
                 <Image
-                  src="/brand/cherrvey-logo.jpg"
+                  src="/brand/cherrvey-logo.png"
                   alt={`${site.shortName} Construction Services emblem`}
                   fill
                   sizes="(max-width: 1024px) 80vw, 420px"
