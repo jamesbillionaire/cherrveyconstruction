@@ -1,76 +1,9 @@
 export const services = [
-  {
-    slug: "general-construction",
-    number: "01",
-    title: "General Construction & Civil Works",
-    summary:
-      "Construction and building-related works executed with focus on quality, coordination, and schedule performance.",
-    details: [
-      "Building-related construction and civil works",
-      "Project implementation from site coordination through completion",
-      "Workmanship standards aligned to drawings and specifications",
-    ],
-  },
-  {
-    slug: "facility-upgrades",
-    number: "02",
-    title: "Facility Upgrades & Improvements",
-    summary:
-      "Renovation, upgrading, rehabilitation, and technical facility improvements for occupied and operational buildings.",
-    details: [
-      "Renovation and upgrading of existing facilities",
-      "Rehabilitation of technical rooms and support spaces",
-      "Facility improvement coordinated with infrastructure installation",
-    ],
-  },
-  {
-    slug: "structured-cabling",
-    number: "03",
-    title: "Structured Cabling & Network Infrastructure",
-    summary:
-      "Copper and data cabling, cabinets, patching, backbone systems, access points, switching, and structured IT infrastructure.",
-    details: [
-      "CAT6 and higher structured cabling",
-      "Patch panels, cabinets, labeling, and cable management",
-      "Switching, wireless access, and related network hardware installation",
-    ],
-  },
-  {
-    slug: "data-room",
-    number: "04",
-    title: "Data Room & IT Infrastructure",
-    summary:
-      "Data-room rehabilitation, racks, power distribution, grounding, cable management, equipment installation, and documentation.",
-    details: [
-      "Data-room and IT-room upgrades",
-      "Racks, grounding, and cable management",
-      "Equipment installation prepared for testing and turnover",
-    ],
-  },
-  {
-    slug: "cctv-security",
-    number: "05",
-    title: "CCTV & Security Infrastructure",
-    summary:
-      "CCTV system deployment integrated with structured cabling and facility requirements.",
-    details: [
-      "CCTV system delivery and installation",
-      "Cabling and pathway works required by the security layout",
-      "Coordination with IT-room and facility improvement scopes",
-    ],
-  },
-  {
-    slug: "testing-commissioning",
-    number: "06",
-    title: "Testing, Commissioning & Documentation",
-    summary:
-      "System testing, certification, as-built documentation, topology plans, training, and project turnover.",
-    details: [
-      "Testing, activation, and commissioning",
-      "As-built layouts, floor plans, and network topology documentation",
-      "User training and complete project turnover where specified",
-    ],
-  },
+  { slug: "general-construction", number: "01", navTitle: "Construction", title: "General Construction & Civil Works", summary: "Building and civil works with coordinated implementation, skilled personnel and attention to the agreed drawings and specifications.", details: ["Building-related construction and civil works", "Site coordination and project implementation", "Workmanship aligned with drawings and specifications"] },
+  { slug: "facility-upgrades", number: "02", navTitle: "Facility Improvements", title: "Facility Upgrades & Improvements", summary: "Improve existing spaces and technical facilities through renovation, rehabilitation and coordinated infrastructure upgrades.", details: ["Renovation and upgrading of existing facilities", "Rehabilitation of technical rooms and support spaces", "Facility improvements coordinated with infrastructure installation"] },
+  { slug: "structured-cabling", number: "03", navTitle: "Cabling & Networks", title: "Structured Cabling & Network Infrastructure", summary: "Connect workspaces with organised cabling, network equipment and wireless infrastructure that support the facility’s requirements.", details: ["CAT6 or higher cabling, termination and patch panels", "Network cabinets, labelling and cable management", "Managed switching, wireless access and network configuration"] },
+  { slug: "data-room", number: "04", navTitle: "Data Rooms", title: "Data Room & IT Infrastructure", summary: "Bring order to the technical spaces behind your operations, from equipment racks and cabling to power distribution and grounding.", details: ["Data-room maintenance and IT-room upgrades", "Racks, grounding, power distribution and cable management", "Equipment installation and project documentation"] },
+  { slug: "cctv-security", number: "05", navTitle: "CCTV", title: "CCTV & Security Infrastructure", summary: "CCTV installation coordinated with the cabling, technical rooms and facility work needed to support the system.", details: ["CCTV system delivery, upgrading and installation", "Cabling and pathways for the security layout", "Coordination with IT-room and facility improvement scopes"] },
+  { slug: "testing-commissioning", number: "06", navTitle: "Commissioning", title: "Testing, Commissioning & Documentation", summary: "Complete the technical work with the testing, documentation and user training specified for your project.", details: ["System testing, activation and commissioning", "As-built layouts, floor plans and network topology documentation", "User training and project turnover where specified"] },
 ] as const;
-
 export type Service = (typeof services)[number];

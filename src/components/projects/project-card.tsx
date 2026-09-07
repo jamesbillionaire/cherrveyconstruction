@@ -1,35 +1,24 @@
 import Link from "next/link";
-
 import { ProjectVisual } from "@/components/brand/project-visual";
+import { LinkArrow } from "@/components/layout/text-link";
 import { projectPath, type Project } from "@/lib/projects";
 
-type ProjectCardProps = {
-  project: Project;
-};
-
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, featured = false }: { project: Project; featured?: boolean }) {
   return (
-    <Link
-      href={projectPath(project.slug)}
-      className="group flex h-full flex-col overflow-hidden border border-border bg-white transition-colors hover:border-brand-blue"
-    >
-      <ProjectVisual project={project} />
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <p className="text-[0.68rem] font-semibold tracking-[0.16em] text-brand-blue uppercase">
-          {project.sector}
-        </p>
-        <h3 className="mt-2 text-xl font-semibold tracking-tight text-brand-ink">
-          {project.title}
-        </h3>
-        <p className="mt-2 text-sm font-medium text-brand-navy">
-          {project.clientShort}
-        </p>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-          {project.summary}
-        </p>
-        <p className="mt-5 text-xs tracking-[0.12em] text-muted-foreground uppercase">
-          {project.year} · {project.location}
-        </p>
+    <Link href={projectPath(project.slug)} className={featured ? "cv-project-feature" : "cv-project-card"}>
+      <ProjectVisual project={project} className={featured ? "cv-feature-visual" : "cv-card-visual"} />
+      <div className={featured ? "cv-feature-body" : "cv-card-body"}>
+        <p className="cv-project-client">{project.clientShort}</p>
+        <h3 className="cv-project-title">{project.title}</h3>
+        <p className="cv-project-summary">{project.summary}</p>
+        {featured && project.slug === "csc-network-rehabilitation" ? (
+          <dl className="cv-scope-numbers" aria-label="Specified project scope">
+            <div><dt>102</dt><dd>Network nodes</dd></div>
+            <div><dt>5</dt><dd>Managed switches</dd></div>
+            <div><dt>8</dt><dd>Wireless access points</dd></div>
+          </dl>
+        ) : null}
+        <div className="cv-project-bottom"><span>{project.year} · {project.location.includes("Pagadian") ? "Pagadian City" : "Cagayan de Oro"}</span><strong>Explore Project <LinkArrow /></strong></div>
       </div>
     </Link>
   );

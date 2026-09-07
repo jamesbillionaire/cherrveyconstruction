@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
+import Link from "next/link";
 import { Container } from "@/components/layout/container";
-import { SectionEyebrow } from "@/components/layout/section-eyebrow";
 import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
@@ -7,24 +8,24 @@ type PageHeroProps = {
   title: string;
   description: string;
   className?: string;
+  parent?: { label: string; href: string };
+  children?: ReactNode;
 };
 
-export function PageHero({
-  eyebrow,
-  title,
-  description,
-  className,
-}: PageHeroProps) {
+export function PageHero({ eyebrow, title, description, className, parent, children }: PageHeroProps) {
   return (
-    <section className={cn("border-b border-border bg-brand-paper", className)}>
-      <Container className="py-12 md:py-16">
-        <SectionEyebrow>{eyebrow}</SectionEyebrow>
-        <h1 className="mt-4 max-w-[18ch] text-3xl font-semibold tracking-tight text-brand-ink sm:text-5xl">
-          {title}
-        </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          {description}
-        </p>
+    <section className={cn("cv-page-hero", className)}>
+      <Container>
+        <nav aria-label="Breadcrumb" className="cv-breadcrumb">
+          <Link href="/">Home</Link>
+          <span aria-hidden="true">/</span>
+          {parent ? <><Link href={parent.href}>{parent.label}</Link><span aria-hidden="true">/</span></> : null}
+          <span aria-current="page">{parent ? title : eyebrow}</span>
+        </nav>
+        <div className="cv-page-intro">
+          <div><p className="cv-eyebrow">{eyebrow}</p><h1>{title}</h1></div>
+          <div><p className="cv-lead">{description}</p>{children}</div>
+        </div>
       </Container>
     </section>
   );
