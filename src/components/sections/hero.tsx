@@ -6,14 +6,14 @@ import { site } from "@/lib/company";
 export function HeroSection() {
   return (
     <section className="cv-home-hero">
-      <Container className="cv-home-hero-grid">
+      <Container className="cv-home-hero-grid lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]!">
         <div>
-          <p className="cv-eyebrow">Construction · Facility Improvement · Technical Infrastructure</p>
+          <p className="cv-eyebrow max-w-none!">Construction & Technical Infrastructure</p>
           <h1><span>Building spaces.</span><span>Connecting systems.</span></h1>
-          <p className="cv-lead">CHERRVEY delivers construction, facility improvements and technical infrastructure for government, commercial and institutional projects across Mindanao—from building works to the networks and systems within.</p>
+          <p className="cv-lead">CHERRVEY brings construction, facility improvements and technical systems together for government, commercial and institutional projects across Mindanao.</p>
           <div className="cv-actions">
-            <ButtonLink href="/contact" variant="cta" size="xl">Discuss a Project</ButtonLink>
-            <ButtonLink href="/projects" variant="inverse" size="xl">View Our Projects</ButtonLink>
+            <ButtonLink href="/contact" variant="cta" size="xl" className="focus-visible:ring-white focus-visible:border-white">Discuss a Project</ButtonLink>
+            <ButtonLink href="/projects" variant="inverse" size="xl" className="focus-visible:ring-white focus-visible:border-white">View Our Projects</ButtonLink>
           </div>
           <div className="cv-hero-foot"><span>Established {site.foundedYear}</span><span>PCAB No. {site.pcabNumber}</span><span>Based in Mindanao</span></div>
         </div>

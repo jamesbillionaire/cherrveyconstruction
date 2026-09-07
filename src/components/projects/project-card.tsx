@@ -11,14 +11,12 @@ export function ProjectCard({ project, featured = false }: { project: Project; f
         <p className="cv-project-client">{project.clientShort}</p>
         <h3 className="cv-project-title">{project.title}</h3>
         <p className="cv-project-summary">{project.summary}</p>
-        {featured && project.slug === "csc-network-rehabilitation" ? (
-          <dl className="cv-scope-numbers" aria-label="Specified project scope">
-            <div><dt>102</dt><dd>Network nodes</dd></div>
-            <div><dt>5</dt><dd>Managed switches</dd></div>
-            <div><dt>8</dt><dd>Wireless access points</dd></div>
+        {featured && project.scopeMetrics?.length ? (
+          <dl className="cv-scope-numbers grid! grid-cols-3 gap-4!" aria-label="Specified project scope">
+            {project.scopeMetrics.map((metric) => <div key={metric.label}><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}
           </dl>
         ) : null}
-        <div className="cv-project-bottom"><span>{project.year} · {project.location.includes("Pagadian") ? "Pagadian City" : "Cagayan de Oro"}</span><strong>Explore Project <LinkArrow /></strong></div>
+        <div className="cv-project-bottom"><span>{project.year} · {project.city}</span><strong>Explore Project <LinkArrow /></strong></div>
       </div>
     </Link>
   );

@@ -3,10 +3,11 @@ export type ProjectSlug = (typeof PROJECT_SLUGS)[number];
 export type ProjectVisualTheme = "flagship" | "port" | "facility" | "dataroom" | "network";
 export type Project = {
   slug: ProjectSlug; title: string; shortTitle: string; client: string; clientShort: string;
-  year: string; location: string; sector: string; category: string; eyebrow: string;
+  year: string; location: string; city: string; sector: string; category: string; eyebrow: string;
   summary: string; reference?: string; featured: boolean; featuredOrder: number;
   image: string | null; visualTheme: ProjectVisualTheme; overviewHeading: string;
   requirement: string; scope: string[]; delivery: string[]; serviceHref: string;
+  scopeMetrics?: { value: string; label: string }[];
   seoTitle: string; seoDescription: string;
 };
 
@@ -15,18 +16,19 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "csc-network-rehabilitation", title: "Regional Office Network Rehabilitation", shortTitle: "CSC Network Rehabilitation",
-    client: "Civil Service Commission Regional Office X", clientShort: "Civil Service Commission · Regional Office X", year: "2026", location: "CSC Regional Office X, Cagayan de Oro City", sector: "Government / Institutional", category: "Network Rehabilitation", eyebrow: "Government / Institutional Infrastructure",
+    client: "Civil Service Commission Regional Office X", clientShort: "Civil Service Commission · Regional Office X", year: "2026", location: "CSC Regional Office X, Cagayan de Oro City", city: "Cagayan de Oro", sector: "Government / Institutional", category: "Network Rehabilitation", eyebrow: "Government / Institutional Infrastructure",
     summary: "Structured cabling, managed switching, wireless access and multi-ISP connectivity, with network testing and as-built documentation.",
     reference: "PO FATR 26-01-001", featured: true, featuredOrder: 1, image: null, visualTheme: "flagship",
     overviewHeading: "A coordinated network upgrade.",
     requirement: "The regional office’s network rehabilitation brought cabling, network equipment, wireless coverage and internet connectivity into one project scope, including integration with existing servers and firewall systems.",
     scope: ["Installation and termination of 102 network nodes using CAT6 or higher cabling", "Five managed gigabit switches, including VLAN configuration", "Eight wireless access points for building-wide coverage", "Cable management and a centralised patch-panel system", "Multiple ISP connections configured for load balancing and failover", "Integration with existing servers and firewall systems"],
     delivery: ["Network performance testing and certification", "Floor plans and as-built layout", "Network topology and project documentation"],
+    scopeMetrics: [{ value: "102", label: "Network nodes" }, { value: "5", label: "Managed switches" }, { value: "8", label: "Wireless access points" }],
     serviceHref: "/services#structured-cabling", seoTitle: "CSC Regional Office X Network Rehabilitation", seoDescription: "Explore CHERRVEY’s CSC Regional Office X network rehabilitation scope: 102 network nodes, managed switching, wireless access, testing and documentation."
   },
   {
     slug: "ppa-structured-cabling", title: "Structured Cabling LAN Maintenance", shortTitle: "PPA Structured Cabling LAN",
-    client: "Philippine Ports Authority — Port of Cagayan de Oro", clientShort: "Philippine Ports Authority", year: "2025", location: "Port of Cagayan de Oro", sector: "Government / Port Infrastructure", category: "Structured Cabling", eyebrow: "Government / Port Infrastructure",
+    client: "Philippine Ports Authority — Port of Cagayan de Oro", clientShort: "Philippine Ports Authority", year: "2025", location: "Port of Cagayan de Oro", city: "Cagayan de Oro", sector: "Government / Port Infrastructure", category: "Structured Cabling", eyebrow: "Government / Port Infrastructure",
     summary: "Maintenance of the structured cabling local area network at the Port of Cagayan de Oro.",
     reference: "MPF-MOC-23-2025", featured: true, featuredOrder: 2, image: null, visualTheme: "port",
     overviewHeading: "Maintaining port network infrastructure.",
@@ -36,7 +38,7 @@ export const projects: Project[] = [
   },
   {
     slug: "dti-cctv-it-room", title: "CCTV & IT Room Upgrade", shortTitle: "DTI CCTV & IT Room Upgrade",
-    client: "Department of Trade and Industry — Northern Mindanao", clientShort: "Department of Trade and Industry", year: "2025", location: "DTI Regional Office, Cagayan de Oro City", sector: "Government / Institutional", category: "CCTV & Facility Improvement", eyebrow: "Government / Institutional Infrastructure",
+    client: "Department of Trade and Industry — Northern Mindanao", clientShort: "Department of Trade and Industry", year: "2025", location: "DTI Regional Office, Cagayan de Oro City", city: "Cagayan de Oro", sector: "Government / Institutional", category: "CCTV & Facility Improvement", eyebrow: "Government / Institutional Infrastructure",
     summary: "CCTV system upgrading and installation, IT-room cabling and related facility improvements for the DTI regional office.",
     reference: "PR2025-08-549", featured: true, featuredOrder: 3, image: null, visualTheme: "facility",
     overviewHeading: "Security and facility works, brought together.",
@@ -46,7 +48,7 @@ export const projects: Project[] = [
   },
   {
     slug: "ppa-data-room", title: "Building 2 Data Room Maintenance", shortTitle: "PPA Data Room Maintenance",
-    client: "Philippine Ports Authority — Port of Cagayan de Oro", clientShort: "Philippine Ports Authority", year: "2025", location: "Building 2, Port of Cagayan de Oro", sector: "Government / Port Infrastructure", category: "Data Room Maintenance", eyebrow: "Government / Port Infrastructure",
+    client: "Philippine Ports Authority — Port of Cagayan de Oro", clientShort: "Philippine Ports Authority", year: "2025", location: "Building 2, Port of Cagayan de Oro", city: "Cagayan de Oro", sector: "Government / Port Infrastructure", category: "Data Room Maintenance", eyebrow: "Government / Port Infrastructure",
     summary: "Data-room maintenance at Building 2 of the Port of Cagayan de Oro.",
     reference: "MPF-MOC-24-2025", featured: false, featuredOrder: 4, image: null, visualTheme: "dataroom",
     overviewHeading: "Care for a critical technical space.",
@@ -56,7 +58,7 @@ export const projects: Project[] = [
   },
   {
     slug: "emb-region-ix-data-network", title: "Data Network Installation & Commissioning", shortTitle: "EMB IX Data Network",
-    client: "Environmental Management Bureau Region IX", clientShort: "Environmental Management Bureau · Region IX", year: "2025", location: "EMB IX Regional Office, Balintawak, Pagadian City", sector: "Government / Institutional", category: "Network Infrastructure", eyebrow: "Government / Institutional Infrastructure",
+    client: "Environmental Management Bureau Region IX", clientShort: "Environmental Management Bureau · Region IX", year: "2025", location: "EMB IX Regional Office, Balintawak, Pagadian City", city: "Pagadian City", sector: "Government / Institutional", category: "Network Infrastructure", eyebrow: "Government / Institutional Infrastructure",
     summary: "Data-network equipment, cabling and installation for the regional office, with testing, activation, commissioning and user training.",
     reference: "PO 02-2025-040", featured: false, featuredOrder: 5, image: null, visualTheme: "network",
     overviewHeading: "From network equipment to commissioned systems.",
