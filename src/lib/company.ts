@@ -9,7 +9,7 @@ export const site = {
   foundedYear: 2021,
   founder: "Harvey John M. Pong",
   pcabNumber: "50206",
-  email: "cherrveyconstruction@gmail.com",
+  email: "info@cherrveyconstruction.com",
   phones: [{ display: "0917 704 2069", href: "tel:+639177042069" }, { display: "0954 399 3723", href: "tel:+639543993723" }],
   address: { line: "Zone 12, Molugan", city: "El Salvador City", province: "Misamis Oriental", country: "Philippines", display: "Zone 12, Molugan, El Salvador City, Misamis Oriental" },
 } as const;
