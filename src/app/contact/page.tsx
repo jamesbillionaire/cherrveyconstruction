@@ -1,92 +1,21 @@
 import type { Metadata } from "next";
-
 import { Container } from "@/components/layout/container";
 import { PageHero } from "@/components/layout/page-hero";
 import { ButtonLink } from "@/components/ui/button-link";
 import { site } from "@/lib/company";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Contact",
-  description:
-    "Contact CHERRVEY Construction Services in El Salvador City, Misamis Oriental to discuss construction, facility improvement, or technical infrastructure work.",
-  path: "/contact",
-});
-
+export const metadata: Metadata = pageMetadata({ title: "Contact", description: "Discuss your construction, facility improvement or technical infrastructure project with CHERRVEY in El Salvador City, Misamis Oriental.", path: "/contact" });
 const inquiryHref = `mailto:${site.email}?subject=${encodeURIComponent("Project inquiry — CHERRVEY Construction Services")}`;
 
 export default function ContactPage() {
   return (
     <main id="main">
-      <PageHero
-        eyebrow="Contact"
-        title="Tell us what you’re building, upgrading, or rehabilitating."
-        description="Reach CHERRVEY directly by telephone or email. There is no web form on this page — inquiries go to the company, not into an unmonitored inbox."
-      />
-
-      <section className="bg-white py-16 md:py-24">
-        <Container className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-brand-ink">
-              Start a project conversation
-            </h2>
-            <p className="mt-4 max-w-xl text-muted-foreground">
-              Include the site location, the current condition of the facility or
-              network, and the work you need performed. We will review the
-              inquiry and respond.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href={inquiryHref} variant="cta" size="xl">
-                Email CHERRVEY
-              </ButtonLink>
-              <ButtonLink href={site.phones[0].href} variant="outline" size="xl">
-                Call {site.phones[0].display}
-              </ButtonLink>
-            </div>
-          </div>
-
-          <div className="border border-border bg-brand-paper p-6 sm:p-8">
-            <h2 className="text-lg font-semibold tracking-tight text-brand-ink">
-              {site.name}
-            </h2>
-            <address className="mt-6 not-italic">
-              <p className="text-[0.65rem] font-semibold tracking-[0.16em] text-brand-steel uppercase">
-                Address
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-foreground">
-                {site.address.display}
-              </p>
-
-              <p className="mt-6 text-[0.65rem] font-semibold tracking-[0.16em] text-brand-steel uppercase">
-                Telephone
-              </p>
-              <div className="mt-2 flex flex-col gap-1">
-                {site.phones.map((phone) => (
-                  <a
-                    key={phone.href}
-                    href={phone.href}
-                    className="text-sm font-medium text-brand-navy hover:underline"
-                  >
-                    {phone.display}
-                  </a>
-                ))}
-              </div>
-
-              <p className="mt-6 text-[0.65rem] font-semibold tracking-[0.16em] text-brand-steel uppercase">
-                Email
-              </p>
-              <a
-                href={`mailto:${site.email}`}
-                className="mt-2 block text-sm font-medium break-all text-brand-navy hover:underline"
-              >
-                {site.email}
-              </a>
-
-              <p className="mt-6 font-mono text-[0.7rem] tracking-[0.16em] text-muted-foreground uppercase">
-                PCAB No. {site.pcabNumber}
-              </p>
-            </address>
-          </div>
+      <PageHero eyebrow="Discuss a project" title="Tell us about your next project." description="Planning construction, a facility upgrade or a network installation? Share your site location and requirements with CHERRVEY."><div className="cv-actions"><ButtonLink href={inquiryHref} variant="cta" size="xl">Email Your Project Brief</ButtonLink></div></PageHero>
+      <section className="cv-section">
+        <Container className="cv-contact-layout">
+          <div><p className="cv-eyebrow">Get in touch</p><h2 className="cv-heading">A direct conversation starts here.</h2><div className="mt-8"><a href={inquiryHref} className="cv-contact-method"><small>Email CHERRVEY</small><strong>{site.email}</strong></a>{site.phones.map((phone, index) => <a key={phone.href} href={phone.href} className="cv-contact-method"><small>{index === 0 ? "Call us" : "Alternative contact number"}</small><strong>{phone.display}</strong></a>)}<address className="cv-contact-address"><strong>{site.name}</strong><br />{site.address.display}</address></div></div>
+          <aside className="cv-inquiry-guide"><h2>Start with your project requirements.</h2><p>Send a brief description of the work, the site location and your target schedule. Include drawings or scope documents in your email when available.</p><ol><li><strong>Where is the project?</strong>Share the city and the type of facility.</li><li><strong>What work do you need?</strong>Outline the construction, improvement or technical scope.</li><li><strong>What is your target schedule?</strong>Let us know your intended start date or project deadline.</li></ol><div className="cv-actions"><ButtonLink href={site.phones[0].href} variant="outline" size="xl">Call CHERRVEY</ButtonLink></div></aside>
         </Container>
       </section>
     </main>

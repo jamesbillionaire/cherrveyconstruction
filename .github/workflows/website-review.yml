@@ -1,0 +1,58 @@
+name: Website design review
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'package*.json'
+      - 'scripts/visual-review.mjs'
+      - '.github/workflows/website-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Lint source
+        run: npm run lint
+      - name: Build static site
+        run: npm run build
+      - name: Type check
+        run: npx tsc --noEmit
+      - name: Install isolated browser review tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/cherrvey-browser-review" --no-package-lock --no-save playwright@1.55.1 @axe-core/playwright@4.10.2
+          node "$RUNNER_TEMP/cherrvey-browser-review/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Review rendered site
+        env:
+          REVIEW_TOOLS: ${{ runner.temp }}/cherrvey-browser-review
+          REVIEW_OUTPUT: visual-review
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory out > "$RUNNER_TEMP/cherrvey-review-server.log" 2>&1 &
+          node scripts/visual-review.mjs
+      - name: Retain screenshots and review report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cherrvey-visual-review
+          path: visual-review/
+          if-no-files-found: ignore
+          retention-days: 7

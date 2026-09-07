@@ -1,119 +1,41 @@
 import Image from "next/image";
-
 import { cn } from "@/lib/utils";
-import type { Project, ProjectVisualTheme } from "@/lib/projects";
+import type { Project } from "@/lib/projects";
 
-type ProjectVisualProps = {
-  project: Project;
-  className?: string;
-};
+type ProjectVisualProps = { project: Project; className?: string };
 
 export function ProjectVisual({ project, className }: ProjectVisualProps) {
   if (project.image) {
-    return (
-      <div className={cn("relative aspect-[16/10] overflow-hidden bg-brand-ink", className)}>
-        <Image
-          src={project.image}
-          alt={`${project.title} for ${project.client}`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div>
-    );
+    return <div className={cn("relative w-full aspect-[16/10] overflow-hidden bg-brand-ink", className)}><Image src={project.image} alt={`${project.title} for ${project.client}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" /></div>;
   }
-
+  // Brand illustration only: never represented as a photograph or project drawing.
+  const network = project.visualTheme === "flagship" || project.visualTheme === "network";
   return (
-    <div
-      className={cn(
-        "relative aspect-[16/10] overflow-hidden",
-        className
-      )}
-      aria-hidden="true"
-    >
-      <AbstractField theme={project.visualTheme} />
-      <div className="absolute inset-0 blueprint-grid opacity-80" />
-      <div className="absolute left-0 top-0 h-full w-1.5 bg-brand-red" />
-      <div className="absolute right-0 top-0 h-16 w-16 border-r-2 border-t-2 border-white/30" />
-      <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-4 p-4 sm:p-5">
-        <div>
-          <p className="font-mono text-[0.65rem] tracking-[0.18em] text-white/70 uppercase">
-            {project.category}
-          </p>
-          <p className="mt-1 max-w-[16rem] text-sm font-semibold tracking-tight text-white sm:text-base">
-            {project.clientShort}
-          </p>
-        </div>
-        <p className="font-mono text-xs tracking-[0.16em] text-white/80">
-          {project.year}
-        </p>
-      </div>
+    <div className={cn("cv-project-graphic w-full aspect-[16/10]", className)} aria-hidden="true">
+      <svg viewBox="0 0 600 360" fill="none" preserveAspectRatio="xMidYMid slice">
+        <path d="M0 60h600M0 120h600M0 180h600M0 240h600M0 300h600M60 0v360M120 0v360M180 0v360M240 0v360M300 0v360M360 0v360M420 0v360M480 0v360M540 0v360" stroke="#8ba4cf" strokeOpacity=".1" />
+        {network ? <>
+          <path d="M72 174h120v-66h120v120h120v-66h102M192 174v72h60M312 108h108V60M432 228v66" stroke="#577bae" strokeWidth="1.5" />
+          <path d="M268 70h88v77h-88zM388 192h88v77h-88zM148 135h88v77h-88z" fill="#173769" stroke="#7996bf" strokeOpacity=".7" />
+          <path d="M280 92h64m-64 11h64m-64 11h45M400 215h64m-64 11h64m-64 11h45M160 158h64m-64 11h64m-64 11h45" stroke="#91a9ca" strokeOpacity=".7" />
+          <path d="M70 172h6v6h-6zM418 57h6v6h-6zM530 159h6v6h-6z" fill="#e33629" />
+        </> : project.visualTheme === "dataroom" ? <>
+          {[145, 265, 385].map((x) => <g key={x}><rect x={x} y="58" width="85" height="214" fill="#143264" stroke="#6687b5" /><path d={`M${x + 10} 84h65m-65 32h65m-65 32h65m-65 32h65m-65 32h65m-65 32h65`} stroke="#91a9ca" strokeOpacity=".6" /><rect x={x + 64} y="95" width="5" height="5" fill="#e33629" /></g>)}
+          <path d="M120 285h375M120 280v10m375-10v10" stroke="#d4ddeb" strokeOpacity=".45" />
+        </> : project.visualTheme === "facility" ? <>
+          <path d="M126 90h270v176H126zM396 90l77 44v176l-77-44M126 266l78 44h269" fill="#143264" stroke="#6687b5" />
+          <path d="M165 130h115v91H165zM302 130h55v136M204 310v-44M396 176h77" stroke="#7694bc" strokeOpacity=".6" />
+          <path d="M280 130h35l25 25v26h-34" stroke="#e33629" strokeWidth="2" />
+          <circle cx="315" cy="181" r="5" fill="#e33629" />
+          <path d="M98 110V66h44M422 58h35v40" stroke="#d4ddeb" strokeOpacity=".45" />
+        </> : <>
+          <path d="m126 243 155-143 180 37v134l-180 41-155-69Z" fill="#143264" stroke="#6687b5" />
+          <path d="m126 243 178-43 157-63M304 200v104M280 100l24 100M156 217l148-36 128 27M184 190l115-28 113 22" stroke="#7694bc" strokeOpacity=".55" />
+          <path d="M98 264v25l177 50M480 117l24 6v161" stroke="#d4ddeb" strokeOpacity=".45" />
+          <path d="m321 229 56-12v7l-56 12z" fill="#e33629" />
+        </>}
+      </svg>
+      <span className="cv-graphic-label">{project.category}</span>
     </div>
   );
-}
-
-function AbstractField({ theme }: { theme: ProjectVisualTheme }) {
-  switch (theme) {
-    case "flagship":
-      return (
-        <div className="absolute inset-0 bg-brand-ink">
-          <div className="absolute -right-10 top-6 h-40 w-40 rotate-45 border-[10px] border-brand-blue/80" />
-          <div className="absolute left-10 top-10 h-24 w-24 border border-white/20" />
-          <div className="absolute bottom-16 right-16 h-2 w-28 bg-brand-red" />
-        </div>
-      );
-    case "port":
-      return (
-        <div className="absolute inset-0 bg-[#12356e]">
-          <div className="absolute inset-y-0 right-[18%] w-px bg-white/20" />
-          <div className="absolute inset-y-0 right-[28%] w-px bg-white/10" />
-          <div className="absolute left-8 top-8 h-28 w-2 bg-brand-steel/70" />
-          <div className="absolute bottom-20 right-10 h-20 w-32 border border-white/25" />
-        </div>
-      );
-    case "facility":
-      return (
-        <div className="absolute inset-0 bg-brand-navy">
-          <div className="absolute left-[20%] top-0 h-full w-[12%] bg-black/20" />
-          <div className="absolute right-8 top-8 size-16 border-2 border-brand-red" />
-          <div className="absolute bottom-24 left-12 h-px w-40 bg-white/30" />
-          <div className="absolute bottom-20 left-12 h-px w-24 bg-brand-red" />
-        </div>
-      );
-    case "dataroom":
-      return (
-        <div className="absolute inset-0 bg-[#0b1c44]">
-          <div className="absolute left-8 top-8 grid grid-cols-6 gap-1.5">
-            {Array.from({ length: 18 }, (_, index) => (
-              <span
-                key={index}
-                className="h-6 w-3 bg-white/15"
-              />
-            ))}
-          </div>
-          <div className="absolute right-10 top-12 h-24 w-16 border border-brand-steel/60" />
-        </div>
-      );
-    case "network":
-      return (
-        <div className="absolute inset-0 bg-brand-blue">
-          <svg className="absolute inset-0 size-full" viewBox="0 0 400 250">
-            <path
-              d="M20 210 L80 80 L160 140 L240 40 L320 120 L380 70"
-              fill="none"
-              stroke="rgba(255,255,255,0.35)"
-              strokeWidth="1.5"
-            />
-            <circle cx="80" cy="80" r="5" fill="#E33629" />
-            <circle cx="240" cy="40" r="5" fill="#ffffff" />
-            <circle cx="320" cy="120" r="5" fill="#939496" />
-          </svg>
-          <div className="absolute right-0 top-0 h-full w-1/3 bg-brand-ink/30" />
-        </div>
-      );
-    default: {
-      const exhaustive: never = theme;
-      return exhaustive;
-    }
-  }
 }
