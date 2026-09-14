@@ -46,6 +46,12 @@ jobs:
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 --directory out > "$RUNNER_TEMP/cherrvey-review-server.log" 2>&1 &
           node scripts/visual-review.mjs
+      - name: Verify live desktop and mobile pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          REVIEW_TOOLS: ${{ runner.temp }}/cherrvey-browser-review
+          REVIEW_OUTPUT: visual-review
+        run: node scripts/production-smoke.mjs
       - name: Retain screenshots and review report
         if: always()
         uses: actions/upload-artifact@v4
