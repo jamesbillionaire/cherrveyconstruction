@@ -1,43 +1,18 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
-import { CtaBand } from "@/components/layout/cta-band";
-import { PageHero } from "@/components/layout/page-hero";
-import { TextLink } from "@/components/layout/text-link";
-import { credentialsNote, mission, site, values, vision } from "@/lib/company";
-import { teamGroups } from "@/lib/presentation";
+import { InnerHero, ProjectCta, TextLink } from "@/components/construction/shared";
+import { site, values } from "@/lib/company";
+import { photos, workSteps } from "@/lib/construction";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({ title: "About", description: "Meet CHERRVEY Construction Services, a Mindanao-based contractor bringing together construction, facility improvements and technical infrastructure since 2021.", path: "/about" });
+export const metadata = pageMetadata({ title: "About", description: "Meet CHERRVEY, a Mindanao-based contractor for general construction, facility improvements and technical works. Established in 2021.", path: "/about" });
 
 export default function AboutPage() {
-  return (
-    <main id="main">
-      <PageHero eyebrow="About CHERRVEY" title="Construction expertise. Rooted in Mindanao." description="Based in El Salvador City, Misamis Oriental, CHERRVEY brings together construction, facility improvement and technical infrastructure capabilities, with a focus on workmanship and coordinated project delivery.">
-        <div className="cv-factline"><span>Established {site.foundedYear}</span><span>PCAB No. {site.pcabNumber}</span></div>
-      </PageHero>
-      <section className="cv-section">
-        <Container className="cv-about-story">
-          <div><p className="cv-eyebrow">Our story</p><h2 className="cv-heading">Built on practical experience.</h2></div>
-          <div className="cv-story-text"><p>CHERRVEY Construction Services began operations in {site.foundedYear} under the leadership of {site.founder}, building on a background in general merchandise, tyres and heavy equipment.</p><p>Today, its capabilities bring construction and facility work together with the technical systems inside: structured cabling, networks, data rooms and CCTV. Government and institutional projects form part of that experience.</p><TextLink href="/projects">Explore Our Project Experience</TextLink></div>
-        </Container>
-      </section>
-      <section className="cv-section cv-paper">
-        <Container><p className="cv-eyebrow">Working together</p><h2 className="cv-heading">The people and coordination behind the work.</h2><p className="cv-lead">Clear direction between office and site brings the right skills, project support and workmanship checks to each stage.</p><div className="cv-team-grid">{teamGroups.map((item) => <article key={item.title} className="cv-team-item"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></Container>
-      </section>
-      <section className="cv-section">
-        <Container className="cv-purpose-grid">
-          <article><p className="cv-eyebrow">Our mission</p><h2>Quality in the work we deliver.</h2><p>{mission.body}</p></article>
-          <article><p className="cv-eyebrow">Our vision</p><h2>A regional foundation. A wider ambition.</h2><p>{vision.body}</p></article>
-        </Container>
-      </section>
-      <section className="cv-section cv-paper">
-        <Container className="cv-values-layout">
-          <div><p className="cv-eyebrow">Our values</p><h2 className="cv-heading">PLOWING</h2><p className="cv-lead">Seven values guide how we approach our work, support our people and build relationships with clients.</p></div>
-          <div className="cv-values-list">{values.map((value) => <article key={value.letter} className="cv-value"><span className="cv-value-letter" aria-hidden="true">{value.letter}</span><h3>{value.title}</h3><p>{value.body}</p></article>)}</div>
-        </Container>
-      </section>
-      <section className="cv-section"><Container><div className="cv-credential"><div><h2>Company credentials</h2><p>PCAB No. {site.pcabNumber}</p><p>{credentialsNote}</p></div><TextLink href="/contact">Contact CHERRVEY</TextLink></div></Container></section>
-      <CtaBand />
-    </main>
-  );
+  return <main id="main" className="cs-site">
+    <InnerHero label="About us" title="Built on care. Backed by capability." description="A Mindanao-based contractor bringing building works, facility improvements and technical expertise together." photo={photos.construction} />
+    <section className="cs-section"><Container className="cs-story"><div><p className="cs-kicker">CHERRVEY Construction Services</p><h2>Local roots.<br />Hands-on delivery.</h2><div className="cs-story-year"><strong>{site.foundedYear}</strong><span>Established in<br />Misamis Oriental</span></div></div><div><p className="cs-story-lead">We build, improve and connect the spaces people rely on.</p><p>Based in El Salvador City, CHERRVEY delivers construction and related works for government, commercial and institutional clients. Skilled people, clear coordination and quality workmanship guide the way we work.</p><div className="cs-company-facts"><span>PCAB No. {site.pcabNumber}</span><TextLink href="/contact">Company inquiries</TextLink></div></div></Container></section>
+    <section className="cs-section cs-dark"><Container><div className="cs-section-head"><div><p className="cs-kicker">How we work</p><h2>Clear from start to finish.</h2></div></div><div className="cs-work-steps">{workSteps.map((step, index) => <article key={step.title}><span>0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div></Container></section>
+    <section className="cs-section"><Container><div className="cs-purpose"><article><p className="cs-kicker">Our mission</p><h2>Do the work well.</h2><p>Deliver quality workmanship and client satisfaction through skilled people, practical technology and close coordination between office and site.</p></article><article><p className="cs-kicker">Our vision</p><h2>Grow with purpose.</h2><p>Become a leading regional construction partner, recognised for quality and commitment to people, with the ambition to serve nationwide by 2033.</p></article></div></Container></section>
+    <section className="cs-section cs-paper"><Container className="cs-values-layout"><div><p className="cs-kicker">Our values</p><h2>PLOWING</h2><p className="cs-intro">The principles behind our work.</p></div><div className="cs-values">{values.map(value => <article key={value.letter}><span>{value.letter}</span><div><h3>{value.title}</h3><p>{value.body}</p></div></article>)}</div></Container></section>
+    <ProjectCta />
+  </main>;
 }

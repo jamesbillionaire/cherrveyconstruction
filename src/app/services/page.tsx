@@ -1,35 +1,28 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
-import { CtaBand } from "@/components/layout/cta-band";
-import { PageHero } from "@/components/layout/page-hero";
-import { TextLink } from "@/components/layout/text-link";
-import { services, type Service } from "@/lib/services";
+import { InnerHero, Photo, ProjectCta, TextLink } from "@/components/construction/shared";
+import { photos, serviceCards } from "@/lib/construction";
 import { serviceProjectLinks } from "@/lib/presentation";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata({ title: "Services", description: "Explore CHERRVEY’s construction, facility improvement, structured cabling, data-room, CCTV and commissioning services for projects across Mindanao.", path: "/services" });
-
-function ServiceDetail({ service }: { service: Service }) {
-  const proof = serviceProjectLinks[service.slug];
-  return <article id={service.slug} className="cv-service-detail"><p className="cv-number">{service.number}</p><div><h2>{service.title}</h2><p>{service.summary}</p></div><div><ul className="cv-scope-list">{service.details.map((detail) => <li key={detail}>{detail}</li>)}</ul><div className="cv-service-proof"><TextLink href={proof?.href ?? "/contact"}>{proof?.label ?? "Discuss Your Construction Project"}</TextLink></div></div></article>;
-}
+export const metadata = pageMetadata({ title: "Services", description: "General construction, renovation, facility improvements, structured cabling, CCTV and technical-room works from CHERRVEY in Mindanao.", path: "/services" });
 
 export default function ServicesPage() {
-  const construction = services.slice(0, 2);
-  const technical = services.slice(2, 5);
-  const delivery = services[5];
-  return (
-    <main id="main">
-      <PageHero eyebrow="Our capabilities" title="From building works to connected systems." description="Explore construction, facility improvement and technical infrastructure services for your next project—from the physical works to the cabling, equipment and systems within." />
-      <Container><nav className="cv-service-index" aria-label="Service areas">{services.map((service) => <a href={`#${service.slug}`} key={service.slug}><span>{service.number}</span>{service.navTitle}</a>)}</nav></Container>
-      <section className="cv-section">
-        <Container>
-          <div className="cv-service-chapter"><p className="cv-service-chapter-title">Construction & Facilities</p>{construction.map((service) => <ServiceDetail key={service.slug} service={service} />)}</div>
-          <div className="cv-service-chapter"><p className="cv-service-chapter-title">Technical Infrastructure</p>{technical.map((service) => <ServiceDetail key={service.slug} service={service} />)}</div>
-          <article className="cv-delivery" id={delivery.slug}><div><p className="cv-eyebrow">Project handover</p><h2 className="mt-4">{delivery.title}</h2><p className="cv-lead">{delivery.summary}</p></div><div><ul className="cv-scope-list">{delivery.details.map((detail) => <li key={detail}>{detail}</li>)}</ul><div className="cv-service-proof"><TextLink href="/projects/emb-region-ix-data-network">Explore the EMB IX Network Project</TextLink></div></div></article>
-        </Container>
-      </section>
-      <CtaBand title="Bring your project requirements to CHERRVEY." body="Tell us about your site and the construction, facility or technical work you need. We can discuss the scope and next steps." />
-    </main>
-  );
+  const construction = serviceCards.filter(service => service.group === "construction");
+  const technical = serviceCards.filter(service => service.group === "technical");
+  const handover = serviceCards[5];
+  return <main id="main" className="cs-site">
+    <InnerHero label="Services" title="Built around your project." description="Construction first. Facility improvements and technical systems to complete the scope." photo={photos.facility} />
+    <Container><nav className="cs-service-nav" aria-label="Services on this page">{serviceCards.map(service => <a key={service.id} href={`#${service.id}`}><span>{service.number}</span>{service.title}</a>)}</nav></Container>
+    <section className="cs-section"><Container><div className="cs-section-head"><div><p className="cs-kicker">Construction & facilities</p><h2>Build new. Make better.</h2></div></div><div className="cs-service-grid cs-service-primary">{construction.map(service => <ServiceCard key={service.id} service={service} />)}</div></Container></section>
+    <section className="cs-section cs-paper"><Container><div className="cs-section-head"><div><p className="cs-kicker">Technical works</p><h2>Connect what matters.</h2></div></div><div className="cs-service-grid">{technical.map(service => <ServiceCard key={service.id} service={service} />)}</div></Container></section>
+    <section className="cs-section" id={handover.id}><Container className="cs-turnover"><div><p className="cs-kicker">06 / Testing & turnover</p><h2>Ready for handover.</h2><p>The testing, training and documentation your project requires.</p></div><ul className="cs-checklist">{handover.details.map(detail => <li key={detail}>{detail}</li>)}</ul><TextLink href="/projects/emb-region-ix-data-network">See project</TextLink></Container></section>
+    <ProjectCta title="Let’s scope your project." />
+  </main>;
+}
+
+function ServiceCard({ service }: { service: (typeof serviceCards)[number] }) {
+  const related = serviceProjectLinks[service.id];
+  return <article className="cs-service-card" id={service.id}>
+    <Photo photo={service.photo} /><div className="cs-service-content"><span className="cs-index">{service.number}</span><h3>{service.title}</h3><p>{service.summary}</p><ul className="cs-checklist">{service.details.map(detail => <li key={detail}>{detail}</li>)}</ul><TextLink href={related?.href || "/contact"}>{related ? "View related project" : "Discuss construction works"}</TextLink></div>
+  </article>;
 }

@@ -1,13 +1,11 @@
 name: Website design review
 
 on:
+  push:
+    branches: [main]
+    paths: ['src/**', 'public/**', 'package*.json', 'scripts/**', '.github/workflows/website-review.yml']
   pull_request:
-    paths:
-      - 'src/**'
-      - 'public/**'
-      - 'package*.json'
-      - 'scripts/visual-review.mjs'
-      - '.github/workflows/website-review.yml'
+    paths: ['src/**', 'public/**', 'package*.json', 'scripts/**', '.github/workflows/website-review.yml']
   workflow_dispatch:
 
 permissions:
@@ -33,7 +31,7 @@ jobs:
         run: npm ci
       - name: Lint source
         run: npm run lint
-      - name: Build static site
+      - name: Build static site and prepare licensed temporary images
         run: npm run build
       - name: Type check
         run: npx tsc --noEmit
@@ -41,7 +39,7 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/cherrvey-browser-review" --no-package-lock --no-save playwright@1.55.1 @axe-core/playwright@4.10.2
           node "$RUNNER_TEMP/cherrvey-browser-review/node_modules/playwright/cli.js" install --with-deps chromium
-      - name: Review rendered site
+      - name: Review rendered site and inquiry form
         env:
           REVIEW_TOOLS: ${{ runner.temp }}/cherrvey-browser-review
           REVIEW_OUTPUT: visual-review
@@ -52,7 +50,9 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cherrvey-visual-review
-          path: visual-review/
+          name: cherrvey-construction-review
+          path: |
+            visual-review/
+            public/images/temporary/sources.json
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 14
